@@ -1,5 +1,8 @@
 # Evaluating Correctness and Faithfulness of Instruction-Following Models for Question Answering
 
+[![arXiv](https://img.shields.io/badge/arXiv-2307.16877-b31b1b.svg)](https://arxiv.org/abs/2307.16877)
+[![License](https://img.shields.io/badge/License-Apache_2.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)  
+
 
 ## Installation
 You can install the library via pip.
