@@ -6,8 +6,6 @@ import requests
 import re
 
 from rag_eval.retrieval.utils import dict_values_list_to_numpy
-from rag_eval.collections.dpr_wiki_collection import DPRWikiCollection
-from rag_eval.collections.topiocqa_wiki_collection import TopiocqaWikiCollection
 from tqdm import tqdm
 
 
@@ -19,9 +17,7 @@ class ResponseRunner:
         retriever,
         document_collection,
         prompt_template,
-        passage_template,
-        history_template,
-        output_path,
+        output_path=None,
         k=10,
         batch_size=1,
         logging_interval=256,
@@ -34,8 +30,6 @@ class ResponseRunner:
         self._retriever = retriever
         self._document_collection = document_collection
         self._prompt_template = prompt_template
-        self._passage_template = passage_template
-        self._history_template = history_template
         self._output_path = output_path
         self._k = k
         self._batch_size = batch_size
@@ -43,30 +37,7 @@ class ResponseRunner:
         self._use_hosted_retriever = use_hosted_retriever
         self._hosted_retriever_url = hosted_retriever_url
         self._use_cached_retrieved_results = use_cached_retrieved_results
-
-        if isinstance(document_collection, TopiocqaWikiCollection):
-            self._collection_name = "tapiocqa"
-        elif isinstance(document_collection, DPRWikiCollection):
-            self._collection_name = "psgs_w100"
-        else:
-            self._collection_name = ""
-
-    def get_model_inputs(self, batch, passages):
-        serialized_passages = [
-            self._passage_template.serialize_passages(p) for p in passages
-        ]
-
-        prompts = [
-            self._prompt_template.format(
-                {
-                    "query": example.question,
-                    "retrieved_passages": serialized_passage,
-                }
-            )
-            for example, serialized_passage in zip(batch, serialized_passages)
-        ]
-
-        return prompts
+        self._collection_name = document_collection.get_name()
 
     def post_process_response(self, response):
         response = re.sub(r"^\n+", "", response)
@@ -121,7 +92,13 @@ class ResponseRunner:
                 for indices in retrieved_indices
             ]
 
-            prompts = self.get_model_inputs(batch, passages)
+            prompts = [
+                self._prompt_template(
+                    sample=sample,
+                    passages=p,
+                )
+                for sample, p in zip(batch, passages)
+            ]
 
             responses = self._model(prompts)
             responses = [self.post_process_response(response) for response in responses]
@@ -145,8 +122,10 @@ class ResponseRunner:
             if i % self._logging_interval == 0:
                 self._write_results_to_file(results)
                 results = []
-
-        self._write_results_to_file(results)
+        if self._output_path is not None:
+            self._write_results_to_file(results)
+        
+        return results
 
     def _write_results_to_file(self, results):
         # Use pathlib to create a folder of the output path if it is not created
@@ -154,99 +133,3 @@ class ResponseRunner:
         Path(self._output_path).parent.mkdir(parents=True, exist_ok=True)
         with open(self._output_path, "a") as f:
             f.writelines(json.dumps(result) + "\n" for result in results)
-
-
-class ConvQAResponseRunner(ResponseRunner):
-    def __init__(
-        self,
-        *args,
-        **kwargs,
-    ):
-        super().__init__(*args, **kwargs)
-
-    def get_model_inputs(self, batch, passages):
-        serialized_passages = [
-            self._passage_template.serialize_passages(p) for p in passages
-        ]
-
-        serialized_histories = [
-            self._history_template.serialize_history(x.context) for x in batch
-        ]
-
-        prompts = [
-            self._prompt_template.format(
-                {
-                    "query": example.question,
-                    "retrieved_passages": serialized_passage,
-                    "history": serialized_history,
-                }
-            )
-            for example, serialized_passage, serialized_history in zip(
-                batch, serialized_passages, serialized_histories
-            )
-        ]
-
-        return prompts
-
-
-class StarChatResponseRunner(ResponseRunner):
-    def __init__(
-        self,
-        *args,
-        **kwargs,
-    ):
-        super().__init__(*args, **kwargs)
-
-    def get_model_inputs(self, batch, passages):
-        system_prompt = "Please answer the following question given the following passages and the conversation history:\n{retrieved_passages}"
-
-        prompts = []
-
-        for i, sample in enumerate(batch):
-            history = sample.context + [
-                {"speaker": "Human", "utterance": sample.question}
-            ]
-            serialized_passages = self._passage_template.serialize_passages(passages[i])
-            prompt = self._prompt_template.serialize_history(
-                system_prompt.format(retrieved_passages=serialized_passages),
-                history,
-            )
-            prompts.append(prompt)
-
-        return prompts
-
-
-class FaithDialResponseRunner(ResponseRunner):
-    def __init__(
-        self,
-        *args,
-        **kwargs,
-    ):
-        super().__init__(*args, **kwargs)
-
-    def get_model_inputs(self, batch, passages):
-        prompt_template = "Please generate a response given the following passage and the conversation history. \
-Make sure to generate informative responses attributable to the provided passages. \
-Have a natural tone, support follow-up discussion with questions, and prompt user's opinions. \
-You may want to express empathy such as \"I'm sorry about ...\" in case the user expresses a very unfortunate event. \
-Also, the response should be relevant to the conversation history and cooperative with the user.\n\nPassage: {knowledge}\
-\n\n{history}\nUser: {query}\nAgent: "
-
-        prompts = []
-
-        for i, sample in enumerate(batch):
-            assert len(passages[i]) == 1
-            knowledge = passages[i][0]["text"]
-            serialized_history = self._history_template.serialize_history(
-                sample.context
-            )
-
-            prompt = prompt_template.format(
-                knowledge=knowledge,
-                history=serialized_history,
-                query=sample.question,
-            )
-
-            prompts.append(prompt)
-
-        return prompts

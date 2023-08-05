@@ -2,10 +2,10 @@ import argparse
 import logging
 import os
 
-from rag_eval.prompt.templates import HistoryTemplate, PromptTemplate, PassageTemplate, StarChatTemplate
+from rag_eval.prompt.utils import load_template
 from rag_eval.retrieval import RetrieverFromFile
 from rag_eval.retrieval.utils import load_retriever, load_index
-from rag_eval.response_runner import ResponseRunner, ConvQAResponseRunner, StarChatResponseRunner, FaithDialResponseRunner
+from rag_eval.response_runner import ResponseRunner
 from rag_eval.collections.utils import load_collection
 from rag_eval.generation.utils import load_model
 from rag_eval.dataset.utils import load_dataset
@@ -41,12 +41,12 @@ parser.add_argument(
     help="The dataset to evaluate against.",
 )
 parser.add_argument(
-    "--dataset_type",
+    "--prompt_type",
     action="store",
     type=str,
     default="qa",
-    choices=["qa", "conv_qa", "qa_unanswerable", "conv_qa_unanswerable", "starcoder_chat", "faithdial"],
-    help="The type of dataset to evaluate against.",
+    choices=["qa", "conv_qa", "qa_unanswerable", "conv_qa_unanswerable"],
+    help="Specify the prompt used to be used by instruction-following models",
 )
 parser.add_argument(
     "--dataset_config_name",
@@ -262,81 +262,18 @@ if __name__ == "__main__":
             retriever_cached_results_fp=args.retriever_cached_results_fp,
         )
 
-    # TODO: Move this elsewhere. We'll want a common location for general prompts.
-    history_template = None
-    prompt_template = None
-    if args.dataset_type == "qa":
-        template = "Please answer the following question given the following passages:\n{retrieved_passages}\nQuestion: {query}\nAnswer: "
-
-        prompt_template = PromptTemplate(
-            variables=["query", "retrieved_passages"],
-            template=template,
-        )
-    elif args.dataset_type == "qa_unanswerable":
-        template = "Please answer the following question given the following passage. If the answer is not in the passage or cannot be inferred from the passage, respond as \"I don't know\".\n{retrieved_passages}\nQuestion: {query}\nAnswer: "
-        prompt_template = PromptTemplate(
-            variables=["query", "retrieved_passages"],
-            template=template,
-        )
-
-    elif args.dataset_type == "conv_qa":
-        template = "Please answer the following question given the following passages and the conversation history:\n\n{retrieved_passages}\n\n{history}\nUser: {query}\nAgent: "
-
-        prompt_template = PromptTemplate(
-            variables=["query", "retrieved_passages", "history"],
-            template=template,
-        )
-
-        history_template = HistoryTemplate()
-    
-    elif args.dataset_type == "conv_qa_unanswerable":
-        template = "Please answer the following question given the following passage and the conversation history. If the answer is not in the passage or cannot be infered from the passage, respond as \"I don't know\".\n\n{retrieved_passages}\n\n{history}\nUser: {query}\nAgent: "
-
-        prompt_template = PromptTemplate(
-            variables=["query", "retrieved_passages", "history"],
-            template=template,
-        )
-
-        history_template = HistoryTemplate()
-
-    elif args.dataset_type == "starcoder_chat":
-        prompt_template = StarChatTemplate()
-    
-    elif args.dataset_type == "faithdial":
-        history_template = HistoryTemplate()
-    
-    else:
-        assert False, f"Unknown dataset type: {args.dataset_type}"
-
-    passage_str = "- Title: {title}\n{text}\n\n"
-
-    passage_template = PassageTemplate(
-        variables=["title", "text"], template=passage_str
-    )
+    prompt_template = load_template(args.prompt_type)
 
     os.makedirs(
         f"{args.persistent_dir}/results/{args.dataset_name}/response", exist_ok=True
     )
 
-    if args.dataset_type in ["qa", "qa_unanswerable"]:
-        runner_cls = ResponseRunner
-    elif args.dataset_type in ["conv_qa", "conv_qa_unanswerable"]:
-        runner_cls = ConvQAResponseRunner
-    elif args.dataset_type == "starcoder_chat":
-        runner_cls = StarChatResponseRunner
-    elif args.dataset_type == "faithdial":
-        runner_cls = FaithDialResponseRunner
-    else:
-        assert False, f"Unknown dataset type: {args.dataset_type}"
-
-    runner = runner_cls(
+    runner = ResponseRunner(
         model=model,
         dataset=dataset,
         retriever=retriever,
         document_collection=document_collection,
         prompt_template=prompt_template,
-        passage_template=passage_template,
-        history_template=history_template,
         output_path=output_file,
         batch_size=args.batch_size,
         logging_interval=args.logging_interval,
