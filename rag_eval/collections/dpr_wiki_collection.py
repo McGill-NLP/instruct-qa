@@ -14,6 +14,7 @@ DPR_WIKI_DOWNLOAD_URL = (
 class DPRWikiCollection(PassageCollection):
     def __init__(
         self,
+        name: str = "dpr_wiki",
         file_name: str = "psgs_w100.tsv",
         cachedir: str = "data",
         id_col: int = 0,
@@ -22,7 +23,7 @@ class DPRWikiCollection(PassageCollection):
         id_prefix: str = "wiki:",
         normalize: bool = True,
     ):
-        super().__init__()
+        super().__init__(name)
         self.id_col = id_col
         self.text_col = text_col
         self.title_col = title_col

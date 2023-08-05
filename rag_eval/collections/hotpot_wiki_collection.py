@@ -10,10 +10,11 @@ from . import PassageCollection, utils
 class HotpotWikiCollection(PassageCollection):
     def __init__(
         self,
+        name: str = "hotpot_wiki",
         file_name: str = "wiki_id2doc.json",
         cachedir: str = "data",
     ):
-        super().__init__()
+        super().__init__(name)
         self._id_to_index = {}
         self.title_to_id = {}
         self.load_data(os.path.join(cachedir, file_name))

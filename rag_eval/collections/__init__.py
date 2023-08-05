@@ -2,7 +2,8 @@ from dataclasses import dataclass
 from typing import List, Dict
 
 class PassageCollection(object):
-    def __init__(self):
+    def __init__(self, name, **kwargs):
+        self.name = name
         self.passages = []
 
     def load_data(self, path_to_file: str):
@@ -22,3 +23,6 @@ class PassageCollection(object):
 
     def passage_to_string(self, passage: Dict[str, str]) -> str:
         return passage["text"]
+
+    def get_name(self) -> str:
+        return self.name
