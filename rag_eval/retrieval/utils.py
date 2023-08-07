@@ -223,24 +223,16 @@ def load_index(index_name, index_path=None):
         The loaded index.
     """
 
-    if index_name in ["dpr-nq-single", "dpr-nq-multi", "dpr-topicqa"]:
-        return IndexFaissFlatIP.load(
-            directory=os.path.dirname(index_path),
-            filename=os.path.basename(index_path),
-        )
-    elif index_name in ["dpr-nq-multi-hnsw", "dpr-topicqa-multi-hnsw", "dpr-hotpotqa-multi-hnsw"]:
+    if "hnsw" in index_name:
         return IndexFaissHNSW.load(
             directory=os.path.dirname(index_path),
             filename=os.path.basename(index_path),
         )
-    elif index_name == "dpr-nq-multi-non-faiss":
-        return IndexTorchFlat.load(
+    else:
+        return IndexFaissFlatIP.load(
             directory=os.path.dirname(index_path),
             filename=os.path.basename(index_path),
-            device="cpu",
         )
-    else:
-        raise NotImplementedError(f"Index {index_name} not supported.")
 
 
 def load_retriever(model_name, index, retriever_cached_results_fp=None):
