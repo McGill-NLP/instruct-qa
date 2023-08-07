@@ -1,10 +1,13 @@
 import csv
 import os
-from typing import List, Dict
+from typing import Dict, List
+
 import requests
 from tqdm import tqdm
 
-from . import PassageCollection, utils
+import rag_eval.experiment_utils as utils
+
+from . import PassageCollection
 
 DPR_WIKI_DOWNLOAD_URL = (
     "https://dl.fbaipublicfiles.com/dpr/wikipedia_split/psgs_w100.tsv.gz"
@@ -16,7 +19,7 @@ class DPRWikiCollection(PassageCollection):
         self,
         name: str = "dpr_wiki",
         file_name: str = "psgs_w100.tsv",
-        cachedir: str = "data",
+        cachedir: str = "data/nq/collection",
         id_col: int = 0,
         text_col: int = 1,
         title_col: int = 2,

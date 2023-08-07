@@ -5,9 +5,6 @@ from typing import Dict, List
 
 import numpy as np
 
-# TODO: wget is used across modules, maybe create repo level utls?
-from rag_eval.collections.utils import wget
-
 
 def _to_np(tensor):
     import torch

@@ -6,6 +6,7 @@ import requests
 import re
 
 from rag_eval.retrieval.utils import dict_values_list_to_numpy
+from rag_eval.dataset.qa import GenericQADataset
 from tqdm import tqdm
 
 
@@ -13,23 +14,30 @@ class ResponseRunner:
     def __init__(
         self,
         model,
-        dataset,
         retriever,
         document_collection,
         prompt_template,
+        dataset=None,
+        queries=None,
         output_path=None,
         k=10,
         batch_size=1,
         logging_interval=256,
-        use_hosted_retriever=True,
+        use_hosted_retriever=False,
         hosted_retriever_url="http://10.140.16.91:42010/search",
         use_cached_retrieved_results=False,
+        post_process_response=False,
     ):
         self._model = model
-        self._dataset = dataset
         self._retriever = retriever
         self._document_collection = document_collection
         self._prompt_template = prompt_template
+
+        # either dataset or queries should be specified, but not both
+        assert (dataset is None) != (queries is None), "Either dataset or queries should be specified, but not both"
+        if queries:
+            dataset = GenericQADataset(queries)
+        self._dataset = dataset
         self._output_path = output_path
         self._k = k
         self._batch_size = batch_size
@@ -38,13 +46,14 @@ class ResponseRunner:
         self._hosted_retriever_url = hosted_retriever_url
         self._use_cached_retrieved_results = use_cached_retrieved_results
         self._collection_name = document_collection.get_name()
+        self._post_process_response = post_process_response
 
     def post_process_response(self, response):
         response = re.sub(r"^\n+", "", response)
         return response.split("\n")[0]
 
     def __call__(self):
-        if os.path.exists(self._output_path):
+        if self._output_path and os.path.exists(self._output_path):
             with open(self._output_path, "r") as f:
                 existing_results = [json.loads(line) for line in f.readlines()]
             num_done = len(existing_results)
@@ -101,7 +110,9 @@ class ResponseRunner:
             ]
 
             responses = self._model(prompts)
-            responses = [self.post_process_response(response) for response in responses]
+
+            if self._post_process_response:
+                responses = [self.post_process_response(response) for response in responses]
 
             results.extend(
                 {
@@ -119,7 +130,7 @@ class ResponseRunner:
                 )
             )
 
-            if i % self._logging_interval == 0:
+            if self._output_path and i + 1 % self._logging_interval == 0:
                 self._write_results_to_file(results)
                 results = []
         if self._output_path is not None:
