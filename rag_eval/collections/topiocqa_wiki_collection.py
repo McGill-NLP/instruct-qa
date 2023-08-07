@@ -12,6 +12,7 @@ TOPIOCQA_WIKI_DOWNLOAD_URL = "https://zenodo.org/record/6149599/files/data/wikip
 class TopiocqaWikiCollection(PassageCollection):
     def __init__(
         self,
+        name: str = "topiocqa_wiki",
         file_name: str = "full_wiki_segments.tsv",
         cachedir: str = "data",
         id_col: int = 0,
@@ -20,7 +21,7 @@ class TopiocqaWikiCollection(PassageCollection):
         id_prefix: str = "wiki:",
         normalize: bool = True,
     ):
-        super().__init__()
+        super().__init__(name)
         self.id_col = id_col
         self.text_col = text_col
         self.title_col = title_col

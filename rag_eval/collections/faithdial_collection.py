@@ -7,10 +7,11 @@ from . import PassageCollection
 class FaithDialCollection(PassageCollection):
     def __init__(
         self,
+        name: str = "faithdial_wiki",
         file_name: str = None,
         cachedir: str = None,
     ):
-        super().__init__()
+        super().__init__(name)
         self._id_to_index = {}
         self.load_data()
 

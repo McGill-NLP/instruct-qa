@@ -35,7 +35,7 @@ def load_collection(document_collection_name, cache_dir, file_name):
             f"Document collection {document_collection_name} not supported."
         )
 
-    return document_collection_mapping[document_collection_name](file_name, cache_dir)
+    return document_collection_mapping[document_collection_name](document_collection_name, file_name, cache_dir)
 
 
 def wget(url, path, progress=True, overwrite=False, create_dir=True, compressed=False):
