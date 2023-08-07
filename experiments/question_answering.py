@@ -198,6 +198,13 @@ parser.add_argument(
     help="Path to the file containing cached retriever results.",
 )
 
+parser.add_argument(
+    "--post_process_results",
+    action="store_true",
+    default=False,
+    help="Whether to post-process the results. ",
+)
+
 if __name__ == "__main__":
     args = parser.parse_args()
 
@@ -270,15 +277,16 @@ if __name__ == "__main__":
 
     runner = ResponseRunner(
         model=model,
-        dataset=dataset,
         retriever=retriever,
         document_collection=document_collection,
         prompt_template=prompt_template,
+        dataset=dataset,
         output_path=output_file,
         batch_size=args.batch_size,
         logging_interval=args.logging_interval,
         use_hosted_retriever=args.use_hosted_retriever == "true",
         hosted_retriever_url=args.hosted_retriever_url,
         use_cached_retrieved_results=isinstance(retriever, RetrieverFromFile),
+        post_process_results=args.post_process_results,
     )
     runner()
