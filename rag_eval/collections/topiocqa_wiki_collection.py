@@ -14,7 +14,7 @@ class TopiocqaWikiCollection(PassageCollection):
         self,
         name: str = "topiocqa_wiki",
         file_name: str = "full_wiki_segments.tsv",
-        cachedir: str = "data",
+        cachedir: str = "data/topiocqa/collection",
         id_col: int = 0,
         text_col: int = 1,
         title_col: int = 2,

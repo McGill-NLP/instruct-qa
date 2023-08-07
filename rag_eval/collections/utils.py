@@ -11,14 +11,13 @@ from rag_eval.collections.topiocqa_wiki_collection import TopiocqaWikiCollection
 from rag_eval.collections.faithdial_collection import FaithDialCollection
 
 
-def load_collection(document_collection_name, cache_dir, file_name):
+def load_collection(document_collection_name, **kwargs):
     """
     Loads a document collection.
 
     Args:
         document_collection_name (str): The name of the document collection to load.
-        cache_dir (str): The directory the document collection is stored in.
-        file_name (str): The basename of the path to the document collection.
+        kwargs: Additional parameters for the document collection e.g., cachedir, file_name.
 
     Returns:
         PassageCollection: The loaded document collection.
@@ -35,7 +34,7 @@ def load_collection(document_collection_name, cache_dir, file_name):
             f"Document collection {document_collection_name} not supported."
         )
 
-    return document_collection_mapping[document_collection_name](document_collection_name, file_name, cache_dir)
+    return document_collection_mapping[document_collection_name](name=document_collection_name, **kwargs)
 
 
 def wget(url, path, progress=True, overwrite=False, create_dir=True, compressed=False):

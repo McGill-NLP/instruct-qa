@@ -16,7 +16,7 @@ class DPRWikiCollection(PassageCollection):
         self,
         name: str = "dpr_wiki",
         file_name: str = "psgs_w100.tsv",
-        cachedir: str = "data",
+        cachedir: str = "data/nq/collection",
         id_col: int = 0,
         text_col: int = 1,
         title_col: int = 2,
