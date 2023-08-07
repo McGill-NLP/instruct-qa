@@ -4,7 +4,7 @@ import os
 from typing import List, Dict
 from tqdm import tqdm
 
-from . import PassageCollection, utils
+from . import PassageCollection
 
 
 class HotpotWikiCollection(PassageCollection):

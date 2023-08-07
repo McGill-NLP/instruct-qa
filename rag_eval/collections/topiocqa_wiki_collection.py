@@ -1,10 +1,13 @@
 import csv
 import os
-from typing import List, Dict
+from typing import Dict, List
+
 import requests
 from tqdm import tqdm
 
-from . import PassageCollection, utils
+import rag_eval.experiment_utils as utils
+
+from . import PassageCollection
 
 TOPIOCQA_WIKI_DOWNLOAD_URL = "https://zenodo.org/record/6149599/files/data/wikipedia_split/full_wiki_segments.tsv"
 
