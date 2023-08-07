@@ -1,12 +1,16 @@
 import os
 from typing import Dict, List
 
+import rag_eval.experiment_utils as utils
 from rag_eval.retrieval import RetrieverFromFile, SentenceTransformerRetriever
-from rag_eval.retrieval.index import (
-    IndexFaissFlatIP,
-    IndexTorchFlat,
-    IndexFaissHNSW,
-)
+from rag_eval.retrieval.index import IndexFaissFlatIP, IndexFaissHNSW
+
+INDEX_NAME_TO_PATH_URL = {
+    "dpr-nq-multi-hnsw": {
+        "url": "https://rag-eval.s3.us-east-2.amazonaws.com/indexes/dpr/nq/multi/hnsw/index.dpr",
+        "path": "data/nq/index/hnsw/index.dpr",
+    },
+}
 
 
 def convert_dict_to_text(
@@ -208,21 +212,30 @@ def dict_values_numpy_to_list(d: Dict, recursive=False) -> Dict:
     return d
 
 
-def load_index(index_name, index_path=None):
+def load_index(index_name, **kwargs):
     """
     Load an index by name.
 
     Parameters
     ----------
     index_name (str): Name of index to load.
-    index_path (str): Path to index file
+    kwargs: Additional parameters for the index (e.g., index_path).
 
     Returns
     -------
     rag_eval.retrieval.index.IndexBase
         The loaded index.
     """
+    index_path = kwargs.get("index_path", None)
+    if index_path is None:
+        index_path = INDEX_NAME_TO_PATH_URL[index_name]["path"]
+        if not os.path.exists(index_path):
+            utils.wget(
+                INDEX_NAME_TO_PATH_URL[index_name]["url"],
+                index_path,
+            )
 
+    print("Loading index...")
     if "hnsw" in index_name:
         return IndexFaissHNSW.load(
             directory=os.path.dirname(index_path),
@@ -248,7 +261,7 @@ def load_retriever(model_name, index, retriever_cached_results_fp=None):
     """
     if retriever_cached_results_fp is not None:
         return RetrieverFromFile(index, filename=retriever_cached_results_fp)
-    
+
     from sentence_transformers import SentenceTransformer
 
     query_model = SentenceTransformer(model_name)
