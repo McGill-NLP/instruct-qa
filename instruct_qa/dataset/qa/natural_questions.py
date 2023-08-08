@@ -1,6 +1,6 @@
 from datasets import load_dataset
 
-from rag_eval.dataset import Dataset, DataSample
+from instruct_qa.dataset import Dataset, DataSample
 
 
 class NaturalQuestionsDataset(Dataset):

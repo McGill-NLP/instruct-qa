@@ -5,7 +5,7 @@ from typing import Dict, List
 import requests
 from tqdm import tqdm
 
-import rag_eval.experiment_utils as utils
+import instruct_qa.experiment_utils as utils
 
 from . import PassageCollection
 

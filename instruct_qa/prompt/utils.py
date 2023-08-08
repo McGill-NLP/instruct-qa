@@ -1,4 +1,4 @@
-from rag_eval.prompt import QAPromptTemplate, LlamaChatQAPromptTemplate, QAUnaswerablePromptTemplate, LlamaChatQAUnaswerablePromptTemplate, ConvQAPromptTemplate, LlamaChatConvQAPromptTemplate, ConvQAUnaswerablePromptTemplate, LlamaChatConvQAUnaswerablePromptTemplate
+from instruct_qa.prompt import QAPromptTemplate, LlamaChatQAPromptTemplate, QAUnaswerablePromptTemplate, LlamaChatQAUnaswerablePromptTemplate, ConvQAPromptTemplate, LlamaChatConvQAPromptTemplate, ConvQAUnaswerablePromptTemplate, LlamaChatConvQAUnaswerablePromptTemplate
 
 def load_template(template_name):
     """

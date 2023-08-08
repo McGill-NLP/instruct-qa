@@ -1,7 +1,7 @@
 import json
 from datasets import load_dataset
 
-from rag_eval.dataset import DataSample, Dataset
+from instruct_qa.dataset import DataSample, Dataset
 
 
 class TopiOCQADataset(Dataset):

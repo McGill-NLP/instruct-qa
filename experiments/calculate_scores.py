@@ -5,8 +5,8 @@ import os
 from os import path
 
 import jsonlines
-from rag_eval.dataset.utils import load_dataset
-from rag_eval.evaluation.utils import load_metric
+from instruct_qa.dataset.utils import load_dataset
+from instruct_qa.evaluation.utils import load_metric
 
 
 def calculate_score_for_single_file(file_name, metrics=None, args=None):

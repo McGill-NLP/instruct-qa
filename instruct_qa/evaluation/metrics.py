@@ -30,8 +30,8 @@ import tensorflow_text as text
 import numpy as np
 from scipy.special import softmax
 
-from rag_eval.prompt.templates import HistoryTemplate, PromptTemplate
-from rag_eval.evaluation import Metric
+from instruct_qa.prompt.templates import HistoryTemplate, PromptTemplate
+from instruct_qa.evaluation import Metric
 
 class Meteor(Metric):
     def __init__(self, name, **kwargs):

@@ -1,4 +1,4 @@
-from rag_eval.evaluation.metrics import (
+from instruct_qa.evaluation.metrics import (
     Bleu,
     BERTScore,
     BEMScore,
@@ -14,7 +14,7 @@ from rag_eval.evaluation.metrics import (
     FaithDialCriticInverse
 )
 
-from rag_eval.evaluation.faithfulness_metrics import FaithDialCritic, FaithDialCriticV2, QSquared, KBERTScore, KF1, KF1PlusPlus, KPrecision, KPrecisionPlusPlus, KRecall, KRecallPlusPlus, KLLMEval, KLLMEvalConv
+from instruct_qa.evaluation.faithfulness_metrics import FaithDialCritic, FaithDialCriticV2, QSquared, KBERTScore, KF1, KF1PlusPlus, KPrecision, KPrecisionPlusPlus, KRecall, KRecallPlusPlus, KLLMEval, KLLMEvalConv
 
 
 def load_metric(name, file_name=None, args=None):

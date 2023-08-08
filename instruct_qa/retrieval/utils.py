@@ -1,9 +1,9 @@
 import os
 from typing import Dict, List
 
-import rag_eval.experiment_utils as utils
-from rag_eval.retrieval import RetrieverFromFile, SentenceTransformerRetriever
-from rag_eval.retrieval.index import IndexFaissFlatIP, IndexFaissHNSW
+import instruct_qa.experiment_utils as utils
+from instruct_qa.retrieval import RetrieverFromFile, SentenceTransformerRetriever
+from instruct_qa.retrieval.index import IndexFaissFlatIP, IndexFaissHNSW
 
 INDEX_NAME_TO_PATH_URL = {
     "dpr-nq-multi-hnsw": {
@@ -223,7 +223,7 @@ def load_index(index_name, **kwargs):
 
     Returns
     -------
-    rag_eval.retrieval.index.IndexBase
+    instruct_qa.retrieval.index.IndexBase
         The loaded index.
     """
     index_path = kwargs.get("index_path", None)

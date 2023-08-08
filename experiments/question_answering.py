@@ -2,14 +2,14 @@ import argparse
 import logging
 import os
 
-from rag_eval.prompt.utils import load_template
-from rag_eval.retrieval import RetrieverFromFile
-from rag_eval.retrieval.utils import load_retriever, load_index
-from rag_eval.response_runner import ResponseRunner
-from rag_eval.collections.utils import load_collection
-from rag_eval.generation.utils import load_model
-from rag_eval.dataset.utils import load_dataset
-from rag_eval.experiment_utils import log_commandline_args, generate_experiment_id
+from instruct_qa.prompt.utils import load_template
+from instruct_qa.retrieval import RetrieverFromFile
+from instruct_qa.retrieval.utils import load_retriever, load_index
+from instruct_qa.response_runner import ResponseRunner
+from instruct_qa.collections.utils import load_collection
+from instruct_qa.generation.utils import load_model
+from instruct_qa.dataset.utils import load_dataset
+from instruct_qa.experiment_utils import log_commandline_args, generate_experiment_id
 
 thisdir = os.path.dirname(os.path.realpath(__file__))
 parser = argparse.ArgumentParser(description="Evaluates a model against a QA dataset.")

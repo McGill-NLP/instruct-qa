@@ -1,4 +1,4 @@
-from rag_eval.generation import OPT, Llama, Flan, GPTx, PipelineGenerator, StarChatGenerator, Vicuna, FalconPipelineGenerator
+from instruct_qa.generation import OPT, Llama, Flan, GPTx, PipelineGenerator, StarChatGenerator, Vicuna, FalconPipelineGenerator
 
 
 def load_model(model_name, **kwargs):

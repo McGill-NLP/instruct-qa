@@ -1,7 +1,7 @@
 import json
 import numpy as np
 
-from rag_eval.retrieval.index import IndexBase, IndexTorchFlat, IndexFaissFlatIP
+from instruct_qa.retrieval.index import IndexBase, IndexTorchFlat, IndexFaissFlatIP
 
 
 class RetrieverBase:
@@ -59,7 +59,7 @@ class SentenceTransformerRetriever(RetrieverBase):
         doc_model: sentence_transformers.SentenceTransformer
             The model used to encode documents. If None, the query_model is used.
 
-        index: rag_eval.retrieval.index.IndexBase
+        index: instruct_qa.retrieval.index.IndexBase
             The index used to retrieve documents. If you don't provide one, you
             must create one with `build_index`.
         """
@@ -177,7 +177,7 @@ class BM25Retriever(RetrieverBase):
         index_subdir: str
             This is the name of the subdirectory where the index will be saved.
 
-        index_cls: rag_eval.retrieval.index.IndexBase
+        index_cls: instruct_qa.retrieval.index.IndexBase
             The index class to use.
 
         **kwargs: dict
