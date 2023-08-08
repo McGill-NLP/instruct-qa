@@ -1,8 +1,8 @@
-from rag_eval.collections.utils import load_collection
-from rag_eval.retrieval.utils import load_retriever, load_index
-from rag_eval.prompt.utils import load_template
-from rag_eval.generation.utils import load_model
-from rag_eval.response_runner import ResponseRunner
+from instruct_qa.collections.utils import load_collection
+from instruct_qa.retrieval.utils import load_retriever, load_index
+from instruct_qa.prompt.utils import load_template
+from instruct_qa.generation.utils import load_model
+from instruct_qa.response_runner import ResponseRunner
 
 collection = load_collection("dpr_wiki_collection")
 index = load_index("dpr-nq-multi-hnsw")
@@ -23,5 +23,5 @@ runner = ResponseRunner(
 responses = runner()
 print(responses[0]["response"])
 """
-Halley's Comet Halley's Comet or Comet Halley, officially designated 1P/Halley, is a short-period...
+Halley's Comet Halley's Comet or Comet Halley, officially designated 1P/Halley...
 """

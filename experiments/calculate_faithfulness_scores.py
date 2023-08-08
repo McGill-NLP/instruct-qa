@@ -6,10 +6,10 @@ from os import path
 import logging
 
 import jsonlines
-from rag_eval.evaluation.utils import load_metric
-from rag_eval.dataset.utils import load_dataset
-from rag_eval.collections.utils import load_collection
-from rag_eval.experiment_utils import log_commandline_args
+from instruct_qa.evaluation.utils import load_metric
+from instruct_qa.dataset.utils import load_dataset
+from instruct_qa.collections.utils import load_collection
+from instruct_qa.experiment_utils import log_commandline_args
 
 
 def calculate_score_for_single_file(

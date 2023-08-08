@@ -14,8 +14,8 @@ from openai.error import (
 )
 
 from tqdm import tqdm
-from rag_eval.evaluation import Metric
-from rag_eval.evaluation.metrics import BERTScore, F1
+from instruct_qa.evaluation import Metric
+from instruct_qa.evaluation.metrics import BERTScore, F1
 import torch
 import numpy as np
 from transformers import (
@@ -29,7 +29,7 @@ import pandas as pd
 
 from allennlp.predictors.predictor import Predictor
 import allennlp_models.pair_classification
-from rag_eval.prompt.templates import HistoryTemplate, PromptTemplate
+from instruct_qa.prompt.templates import HistoryTemplate, PromptTemplate
 
 INVALID_QUESTION = -1
 NO_ANS = "[CLS]"

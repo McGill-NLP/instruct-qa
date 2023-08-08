@@ -1,7 +1,7 @@
-from rag_eval.collections.dpr_wiki_collection import DPRWikiCollection
-from rag_eval.collections.hotpot_wiki_collection import HotpotWikiCollection
-from rag_eval.collections.topiocqa_wiki_collection import TopiocqaWikiCollection
-from rag_eval.collections.faithdial_collection import FaithDialCollection
+from instruct_qa.collections.dpr_wiki_collection import DPRWikiCollection
+from instruct_qa.collections.hotpot_wiki_collection import HotpotWikiCollection
+from instruct_qa.collections.topiocqa_wiki_collection import TopiocqaWikiCollection
+from instruct_qa.collections.faithdial_collection import FaithDialCollection
 
 
 def load_collection(document_collection_name, **kwargs):

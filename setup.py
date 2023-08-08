@@ -1,12 +1,12 @@
 from setuptools import setup
 
 setup(
-    name="rag-eval",
+    name="instruct-qa",
     description="Empirical evaluation of retrieval-augmented instruction-following models.",
     version="0.0.1",
     url="https://github.com/McGill-NLP/instruct-qa",
     python_requires=">=3.7",
-    packages=["rag_eval"],
+    packages=["instruct_qa"],
     install_requires=[
         "torch",
         "transformers",

@@ -1,4 +1,4 @@
-from rag_eval.dataset import (
+from instruct_qa.dataset import (
     HotpotQADataset,
     NaturalQuestionsDataset,
     TopiOCQADataset,

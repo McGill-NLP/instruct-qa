@@ -294,7 +294,7 @@ class IndexPyseriniBM25(IndexBase):
 
         Examples
         --------
-        >>> from rag_eval.retrieval.index import IndexPyseriniBM25
+        >>> from instruct_qa.retrieval.index import IndexPyseriniBM25
         >>> records = [{"index": 0, "text": "My name is Nick"}, {"index": 1, "text": "I was born in 1974"}]
         >>> IndexPyseriniBM25.build_index(records, "/tmp/pyserini", index_subdir="bm25_pyserini")
         >>> index = IndexPyseriniBM25.load("/tmp/pyserini", index_subdir="bm25_pyserini")

@@ -5,8 +5,8 @@ import numpy as np
 import requests
 import re
 
-from rag_eval.retrieval.utils import dict_values_list_to_numpy
-from rag_eval.dataset.qa import GenericQADataset
+from instruct_qa.retrieval.utils import dict_values_list_to_numpy
+from instruct_qa.dataset.qa import GenericQADataset
 from tqdm import tqdm
 
 
