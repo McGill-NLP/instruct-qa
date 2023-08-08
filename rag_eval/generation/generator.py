@@ -122,9 +122,17 @@ class Llama(BaseGenerator):
         self.tokenizer = AutoTokenizer.from_pretrained(
             self.weights_path, padding_side="left"
         )
-        self.model = AutoModelForCausalLM.from_pretrained(
-            self.weights_path, torch_dtype=self.torch_dtype, device_map="auto"
-        )
+        if "70b" in self.model_name:
+            self.model = AutoModelForCausalLM.from_pretrained(
+                self.weights_path,
+                load_in_4bit=True,
+                torch_dtype=self.torch_dtype,
+                device_map="auto",
+            )
+        else:
+            self.model = AutoModelForCausalLM.from_pretrained(
+                self.weights_path, torch_dtype=self.torch_dtype, device_map="auto"
+            )
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
             self.model.config.pad_token_id = self.model.config.eos_token_id

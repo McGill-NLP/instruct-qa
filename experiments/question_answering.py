@@ -45,7 +45,7 @@ parser.add_argument(
     action="store",
     type=str,
     default="qa",
-    choices=["qa", "conv_qa", "qa_unanswerable", "conv_qa_unanswerable"],
+    choices=["qa", "llama_chat_qa", "conv_qa", "llama_chat_conv_qa", "qa_unanswerable", "llama_chat_qa_unanswerable", "conv_qa_unanswerable", "llama_chat_conv_qa_unanswerable"],
     help="Specify the prompt used to be used by instruction-following models",
 )
 parser.add_argument(
@@ -199,7 +199,7 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--post_process_results",
+    "--post_process_response",
     action="store_true",
     default=False,
     help="Whether to post-process the results. ",
@@ -240,7 +240,7 @@ if __name__ == "__main__":
     logger.info("Loading document collection...")
     document_collection = load_collection(
         args.document_collection_name,
-        cache_dir=args.document_cache_dir,
+        cachedir=args.document_cache_dir,
         file_name=args.document_file_name,
     )
 
@@ -287,6 +287,6 @@ if __name__ == "__main__":
         use_hosted_retriever=args.use_hosted_retriever == "true",
         hosted_retriever_url=args.hosted_retriever_url,
         use_cached_retrieved_results=isinstance(retriever, RetrieverFromFile),
-        post_process_results=args.post_process_results,
+        post_process_response=args.post_process_response,
     )
     runner()

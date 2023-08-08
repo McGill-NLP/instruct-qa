@@ -16,7 +16,7 @@ def load_model(model_name, **kwargs):
         model_cls = OPT
     elif "dolly" in model_name or "h2ogpt" in model_name:
         model_cls = PipelineGenerator
-    elif any(model_type in model_name for model_type in ["alpaca"]):
+    elif any(model_type in model_name for model_type in ["alpaca", "llama"]):
         model_cls = Llama
     elif "vicuna" in model_name:
         model_cls = Vicuna
