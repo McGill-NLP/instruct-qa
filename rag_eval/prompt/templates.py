@@ -165,6 +165,28 @@ class ConvQAPromptTemplate(PromptTemplate):
         return prompt
 
 
+class LlamaChatConvQAPromptTemplate(ConvQAPromptTemplate):
+    def __init__(self):
+        self.B_INST, self.E_INST = "[INST]", "[/INST]"
+        self.B_SYS, self.E_SYS = "<<SYS>>\n", "\n<</SYS>>\n\n"
+
+        self.variables = ["query", "retrieved_passages", "history"]
+        self.template = (
+            self.B_INST
+            + " "
+            + self.B_SYS
+            + "Please answer the following question given the following passages and the conversation history:"
+            + self.E_SYS
+            + "{retrieved_passages}\n{history}\nuser: {query}\n"
+            + self.E_INST
+            + "\nassistant: "
+        )
+
+        self.history_template = HistoryTemplate(templates={"Human": "user: {}\n", "Assistant": "assistant: {}\n"})
+        self.passage_template = PassageTemplate(template="- Title: {title}\n{text}\n")
+
+
+
 class ConvQAUnaswerablePromptTemplate(ConvQAPromptTemplate):
     def __init__(self):
         self.variables = ["query", "retrieved_passages", "history"]
@@ -172,3 +194,18 @@ class ConvQAUnaswerablePromptTemplate(ConvQAPromptTemplate):
 
         self.history_template = HistoryTemplate()
         self.passage_template = PassageTemplate()
+
+
+class LlamaChatConvQAUnaswerablePromptTemplate(LlamaChatConvQAPromptTemplate):
+    def __init__(self):
+        super().__init__()
+        self.template = (
+            self.B_INST
+            + " "
+            + self.B_SYS
+            + 'Please answer the following question given the following passages and the conversation history. If the answer is not in the passages or cannot be infered from the passages, respond as "I don\'t know".'
+            + self.E_SYS
+            + "{retrieved_passages}\n{history}\nuser: {query}\n"
+            + self.E_INST
+            + "\nassistant: "
+        )
