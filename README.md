@@ -4,11 +4,59 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)  
 
 
-## Installation
+## Quick Start
+### Installation
 You can install the library via pip.
 
 ```
 pip install -e .
+```
+### Usage
+Here is a simple example to get started. Using this library, use can easily leverage retrieval-augmented instruction-following models for question-answering in ~25 lines of code. The source file for this example is [examples/get_started.py](examples/get_started.py).
+```python
+from rag_eval.collections.utils import load_collection
+from rag_eval.retrieval.utils import load_retriever, load_index
+from rag_eval.prompt.utils import load_template
+from rag_eval.generation.utils import load_model
+from rag_eval.response_runner import ResponseRunner
+
+collection = load_collection("dpr_wiki_collection")
+index = load_index("dpr-nq-multi-hnsw")
+retriever = load_retriever("facebook-dpr-question_encoder-multiset-base", index)
+model = load_model("flan-t5-xxl")
+prompt_template = load_template("qa")
+
+queries = ["what is haleys comet"]
+
+runner = ResponseRunner(
+    model=model,
+    retriever=retriever,
+    document_collection=collection,
+    prompt_template=prompt_template,
+    queries=queries,
+)
+
+responses = runner()
+print(responses[0]["response"])
+# Halley's Comet Halley's Comet or Comet Halley, officially designated 1P/Halley, is a short-period comet visible from Earth every 75–76 years. Halley is the only known short-period comet that is regularly visible to the naked eye from Earth, and the only naked-eye comet that might appear twice in a human lifetime. Halley last appeared...
+```
+You can also check the input prompt given to the instruction-sollowing model that contains the instruction and the retrieved passages.
+```python
+print(responses[0]["prompt"])
+"""
+Please answer the following question given the following passages:
+- Title: Bill Haley
+then known as Bill Haley's Saddlemen...
+
+- Title: C/2016 R2 (PANSTARRS)
+(CO) with a blue coma. The blue color...
+
+...
+
+Question: what is haleys comet
+Answer:
+"""
+
 ```
 
 

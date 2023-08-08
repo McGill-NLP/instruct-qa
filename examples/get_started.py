@@ -10,7 +10,7 @@ retriever = load_retriever("facebook-dpr-question_encoder-multiset-base", index)
 model = load_model("flan-t5-xxl")
 prompt_template = load_template("qa")
 
-queries = ["What is the full form of ACL?"]
+queries = ["what is haleys comet"]
 
 runner = ResponseRunner(
     model=model,
@@ -22,3 +22,6 @@ runner = ResponseRunner(
 
 responses = runner()
 print(responses[0]["response"])
+"""
+Halley's Comet Halley's Comet or Comet Halley, officially designated 1P/Halley, is a short-period...
+"""
