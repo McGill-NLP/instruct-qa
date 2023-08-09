@@ -8,13 +8,8 @@ on:
     types: [created]
 
 jobs:
-  publish-on-pypi:
+  update-version:
     runs-on: ubuntu-latest
-    # Specifying a GitHub environment is optional, but strongly encouraged
-    environment: release
-    permissions:
-      # IMPORTANT: this permission is mandatory for trusted publishing
-      id-token: write
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -28,5 +23,14 @@ jobs:
       run: |
         python .github/scripts/update_version.py --version $RELEASE_TAG
 
+  publish-on-pypi:
+    runs-on: ubuntu-latest
+    needs: update-version  # IMPORTANT: ensures that version is updated before publishing
+    # Specifying a GitHub environment is optional, but strongly encouraged
+    environment: release
+    permissions:
+      # IMPORTANT: this permission is mandatory for trusted publishing
+      id-token: write
+    steps:  
     - name: Publish package distributions to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
