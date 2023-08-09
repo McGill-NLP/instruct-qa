@@ -9,7 +9,6 @@ on:
 
 jobs:
   publish-on-pypi:
-    needs: update-version  # IMPORTANT: ensures that version is updated before publishing
     # Specifying a GitHub environment is optional, but strongly encouraged
     environment: release
     permissions:
