@@ -1,20 +1,26 @@
 # Evaluating Correctness and Faithfulness of Instruction-Following Models for Question Answering
 
 [![arXiv](https://img.shields.io/badge/arXiv-2307.16877-b31b1b.svg)](https://arxiv.org/abs/2307.16877)
-[![License](https://img.shields.io/badge/License-Apache_2.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)  
+[![License](https://img.shields.io/badge/License-Apache_2.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 [![PyPi](https://img.shields.io/pypi/v/instruct-qa)](https://pypi.org/project/instruct-qa/)
 
 ## Quick Start
 ### Installation
 
 Make sure you have Python 3.7+ installed. It is also a good idea to use a virtual environment.
+
 <details>
-<summary>Show instructions for Virtual Environments</summary>
-<br>
+<summary>Show instructions for creating a Virtual Environment</summary>
+
+<div>
+
 ```bash
 python3 -m venv instruct-qa-venv
 source instruct-qa-venv/bin/activate
 ```
+    
+</div>
+
 </details>
 
 
@@ -37,6 +43,7 @@ pip3 install -e .
 
 ### Usage
 Here is a simple example to get started. Using this library, use can easily leverage retrieval-augmented instruction-following models for question-answering in ~25 lines of code. The source file for this example is [examples/get_started.py](examples/get_started.py).
+
 ```python
 from instruct_qa.collections.utils import load_collection
 from instruct_qa.retrieval.utils import load_retriever, load_index
@@ -85,6 +92,7 @@ Answer:
 
 
 ## Data and Resources (Coming soon!)
+
 We plan to release data and resources soon! Stay tuned!
 
 ## License
@@ -92,6 +100,8 @@ We plan to release data and resources soon! Stay tuned!
 This work is licensed under the Apache 2 license. See [LICENSE](LICENSE) for details.
 
 ## Citation
+
+
 To cite this work, please use the following citation:
 ```
 @article{adlakha2023evaluating,
