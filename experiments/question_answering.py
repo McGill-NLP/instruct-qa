@@ -259,7 +259,10 @@ if __name__ == "__main__":
     index = None
     if args.index_name is not None:
         logger.info("Loading index...")
-        index = load_index(args.index_name, args.index_path)
+        kwargs = {}
+        if args.index_path is not None:
+            kwargs['index_path'] = args.index_path
+        index = load_index(args.index_name, **kwargs)
 
     retriever = None
     if index is not None or args.retriever_cached_results_fp is not None:
