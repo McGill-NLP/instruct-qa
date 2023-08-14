@@ -1,3 +1,4 @@
+from math import inf
 import time
 import openai
 from openai.error import (
@@ -69,6 +70,8 @@ class GPTx(BaseGenerator):
             "chat",
             "completions",
         ], "Only chat and completions endpoints are implemented. You may want to add other configurations."
+        # Default value is different from HF, it is inf
+        self.max_new_tokens = self.max_new_tokens if self.max_new_tokens else inf
 
     def __call__(self, prompts, n=1):
         responses = []

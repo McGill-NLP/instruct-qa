@@ -94,7 +94,7 @@ parser.add_argument(
     "--max_new_tokens",
     action="store",
     type=int,
-    default=64,
+    default=None,
     help="The maximum number of tokens to generate.",
 )
 parser.add_argument(
@@ -178,7 +178,7 @@ parser.add_argument(
 parser.add_argument(
     "--use_hosted_retriever",
     choices=["true", "false"],
-    default="true",
+    default="false",
     help="Whether to use the hosted retriever.",
 )
 
@@ -238,11 +238,12 @@ if __name__ == "__main__":
     logger.info(f"Length of dataset: {len(dataset)}")
 
     logger.info("Loading document collection...")
-    document_collection = load_collection(
-        args.document_collection_name,
-        cachedir=args.document_cache_dir,
-        file_name=args.document_file_name,
-    )
+    kwargs = {}
+    if args.document_cache_dir is not None:
+        kwargs['cachedir'] = args.document_cache_dir
+    if args.document_file_name is not None:
+        kwargs['file_name'] = args.document_file_name
+    document_collection = load_collection(args.document_collection_name, **kwargs)
 
     logger.info("Loading generation model...")
     model = load_model(
