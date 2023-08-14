@@ -1,5 +1,6 @@
 import argparse
 import logging
+from math import inf
 import os
 
 from instruct_qa.prompt.utils import load_template
@@ -73,7 +74,7 @@ parser.add_argument(
     "--temperature",
     action="store",
     type=float,
-    default=1.0,
+    default=0.95,
     help="The temperature to use during generation.",
 )
 parser.add_argument(
@@ -87,14 +88,14 @@ parser.add_argument(
     "--min_new_tokens",
     action="store",
     type=int,
-    default=20,
+    default=1,
     help="The minimum number of tokens to generate.",
 )
 parser.add_argument(
     "--max_new_tokens",
     action="store",
     type=int,
-    default=None,
+    default=inf,
     help="The maximum number of tokens to generate.",
 )
 parser.add_argument(
@@ -136,7 +137,7 @@ parser.add_argument(
     "--logging_interval",
     action="store",
     type=int,
-    default=256,
+    default=10,
     help="Step frequency to write results to disk.",
 )
 parser.add_argument(
