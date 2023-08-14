@@ -69,7 +69,8 @@ class GPTx(BaseGenerator):
             "chat",
             "completions",
         ], "Only chat and completions endpoints are implemented. You may want to add other configurations."
-        self.max_new_tokens = self.max_new_tokens
+        # json error happens if max_new_tokens is inf
+        self.max_new_tokens = 5000 if self.max_new_tokens > 5000 else self.max_new_tokens
 
     def __call__(self, prompts, n=1):
         responses = []
