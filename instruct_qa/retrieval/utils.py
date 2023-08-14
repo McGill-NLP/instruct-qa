@@ -10,6 +10,10 @@ INDEX_NAME_TO_PATH_URL = {
         "url": "https://rag-eval.s3.us-east-2.amazonaws.com/indexes/dpr/nq/multi/hnsw/index.dpr",
         "path": "data/nq/index/hnsw/index.dpr",
     },
+    "dpr-topiocqa-single-hnsw": {
+        "url": "https://rag-eval.s3.us-east-2.amazonaws.com/indexes/dpr/topiocqa/single/hnsw/index.dpr",
+        "path": "data/topiocqa/index/hnsw/index.dpr",
+    },
 }
 
 

@@ -41,7 +41,7 @@ class TopiocqaWikiCollection(PassageCollection):
 
         with open(path_to_file) as ifile:
             reader = csv.reader(ifile, delimiter="\t")
-            for i, row in enumerate(tqdm(reader)):
+            for i, row in enumerate(tqdm(reader, desc="Loading TopiOCQA Wiki")):
                 if row[self.id_col] == "id":
                     self.header_included = True
                     continue
