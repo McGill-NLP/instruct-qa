@@ -133,6 +133,7 @@ dmypy.json
 .pyre/
 
 data/**
+results/**
 
 # Ignore vscode settings
 .vscode/
