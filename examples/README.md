@@ -16,8 +16,6 @@ Our library supports both question answering (QA) and conversational question an
 - [HotpotQA](https://huggingface.co/datasets/hotpot_qa)
 - [TopiOCQA](https://huggingface.co/datasets/McGill-NLP/TopiOCQA)
 
-It is easy to add any HuggingFace dataset to the library by providing a mapping, as demonstrated [here]().
-
 Here is an example to generate responses for Natural Questions using DPR retriever and Flan-T5 generator.
 ```bash
 python experiments/question_answering.py \
