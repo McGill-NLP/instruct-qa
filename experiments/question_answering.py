@@ -1,5 +1,6 @@
 import argparse
 import logging
+from math import inf
 import os
 
 from instruct_qa.prompt.utils import load_template
@@ -73,7 +74,7 @@ parser.add_argument(
     "--temperature",
     action="store",
     type=float,
-    default=1.0,
+    default=0.95,
     help="The temperature to use during generation.",
 )
 parser.add_argument(
@@ -87,14 +88,14 @@ parser.add_argument(
     "--min_new_tokens",
     action="store",
     type=int,
-    default=20,
+    default=1,
     help="The minimum number of tokens to generate.",
 )
 parser.add_argument(
     "--max_new_tokens",
     action="store",
     type=int,
-    default=64,
+    default=inf,
     help="The maximum number of tokens to generate.",
 )
 parser.add_argument(
@@ -136,7 +137,7 @@ parser.add_argument(
     "--logging_interval",
     action="store",
     type=int,
-    default=256,
+    default=10,
     help="Step frequency to write results to disk.",
 )
 parser.add_argument(
@@ -178,7 +179,7 @@ parser.add_argument(
 parser.add_argument(
     "--use_hosted_retriever",
     choices=["true", "false"],
-    default="true",
+    default="false",
     help="Whether to use the hosted retriever.",
 )
 
@@ -238,11 +239,12 @@ if __name__ == "__main__":
     logger.info(f"Length of dataset: {len(dataset)}")
 
     logger.info("Loading document collection...")
-    document_collection = load_collection(
-        args.document_collection_name,
-        cachedir=args.document_cache_dir,
-        file_name=args.document_file_name,
-    )
+    kwargs = {}
+    if args.document_cache_dir is not None:
+        kwargs['cachedir'] = args.document_cache_dir
+    if args.document_file_name is not None:
+        kwargs['file_name'] = args.document_file_name
+    document_collection = load_collection(args.document_collection_name, **kwargs)
 
     logger.info("Loading generation model...")
     model = load_model(
@@ -258,7 +260,10 @@ if __name__ == "__main__":
     index = None
     if args.index_name is not None:
         logger.info("Loading index...")
-        index = load_index(args.index_name, args.index_path)
+        kwargs = {}
+        if args.index_path is not None:
+            kwargs['index_path'] = args.index_path
+        index = load_index(args.index_name, **kwargs)
 
     retriever = None
     if index is not None or args.retriever_cached_results_fp is not None:

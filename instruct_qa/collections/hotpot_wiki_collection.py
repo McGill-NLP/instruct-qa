@@ -4,7 +4,11 @@ import os
 from typing import List, Dict
 from tqdm import tqdm
 
+import instruct_qa.experiment_utils as utils
+
 from . import PassageCollection
+
+HOTPOT_QA_WIKI_DOWNLOAD_URL = "https://dl.fbaipublicfiles.com/mdpr/data/hotpot_index/wiki_id2doc.json"
 
 
 class HotpotWikiCollection(PassageCollection):
@@ -12,7 +16,7 @@ class HotpotWikiCollection(PassageCollection):
         self,
         name: str = "hotpot_wiki",
         file_name: str = "wiki_id2doc.json",
-        cachedir: str = "data",
+        cachedir: str = "data/hotpot_qa/collection",
     ):
         super().__init__(name)
         self._id_to_index = {}
@@ -20,8 +24,11 @@ class HotpotWikiCollection(PassageCollection):
         self.load_data(os.path.join(cachedir, file_name))
 
     def load_data(self, path_to_file: str):
-        assert os.path.exists(path_to_file), f"File does not exist: {path_to_file}"
+        os.makedirs(os.path.dirname(path_to_file), exist_ok=True)
+        if not os.path.exists(path_to_file):
+            utils.wget(HOTPOT_QA_WIKI_DOWNLOAD_URL, path_to_file)
 
+        print("Loading file...")
         with open(path_to_file) as ifile:
             data = json.load(ifile)
         for id, doc in tqdm(data.items()):

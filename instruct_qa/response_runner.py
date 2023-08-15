@@ -130,7 +130,7 @@ class ResponseRunner:
                 )
             )
 
-            if self._output_path and i + 1 % self._logging_interval == 0:
+            if self._output_path and (i + 1) % self._logging_interval == 0:
                 self._write_results_to_file(results)
                 results = []
         if self._output_path is not None:

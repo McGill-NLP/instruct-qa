@@ -1,3 +1,4 @@
+from math import inf
 import time
 import openai
 from openai.error import (
@@ -5,6 +6,7 @@ from openai.error import (
     APIConnectionError,
     ServiceUnavailableError,
     APIError,
+    Timeout,
 )
 import torch
 from transformers import pipeline
@@ -69,18 +71,20 @@ class GPTx(BaseGenerator):
             "chat",
             "completions",
         ], "Only chat and completions endpoints are implemented. You may want to add other configurations."
+        # json error happens if max_new_tokens is inf
+        self.max_new_tokens = self.max_new_tokens
 
     def __call__(self, prompts, n=1):
         responses = []
         for prompt in prompts:
             # to maintain enough space for generation
             prompt = " ".join(prompt.split()[:2800])
+            kwargs = {"temperature": self.temperature, "top_p": self.top_p, "n": n}
+            if self.max_new_tokens != inf:
+                kwargs["max_tokens"] = self.max_new_tokens
             response = self.api_request(
                 prompt,
-                temperature=self.temperature,
-                top_p=self.top_p,
-                max_tokens=self.max_new_tokens,
-                n=n,
+                **kwargs,
             )
             if n == 1:
                 responses.append(response[0])
@@ -107,6 +111,7 @@ class GPTx(BaseGenerator):
             APIConnectionError,
             ServiceUnavailableError,
             APIError,
+            Timeout,
         ) as e:
             print(f"Error: {e}. Waiting {self.wait} seconds before retrying.")
             time.sleep(self.wait)

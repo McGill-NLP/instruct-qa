@@ -89,11 +89,35 @@ Answer:
 """
 
 ```
+Detailed documentation of different modules of the library can be found [here](instruct_qa/README.md)
+
+## Generating responses for entire datasets
+Our library supports both question answering (QA) and conversational question answering (ConvQA) datasets. The following datasets are currently incorporated in the library
+- [Natural Questions (Open-domain)](https://huggingface.co/datasets/nq_open)
+- [HotpotQA](https://huggingface.co/datasets/hotpot_qa)
+- [TopiOCQA](https://huggingface.co/datasets/McGill-NLP/TopiOCQA)
+
+It is easy to add any HuggingFace dataset to the library by providing a mapping, as demonstrated [here]().
+
+Here is an example to generate responses for Natural Questions using DPR retriever and Flan-T5 generator.
+```bash
+python experiments/question_answering.py \
+--prompt_type qa \
+--dataset_name natural_questions \
+--document_collection_name dpr_wiki_collection \
+--index_name dpr-nq-multi-hnsw \
+--retriever_name facebook-dpr-question_encoder-multiset-base \
+--batch_size 1 \
+--model_name flan-t5-xxl \
+--k 8
+```
+
+By default, a `results` directory is created within the repository that stores the model responses. The default directory location can be overidden by providing an additional command line argument `--persistent_dir <OUTPUT_DIR>` More examples are present in the [examples](examples) directory.
 
 
-## Data and Resources (Coming soon!)
+## Evaluating model responses (Coming soon!)
 
-We plan to release data and resources soon! Stay tuned!
+Documentation to evaluate model responses and add your own evaluation criterion coming soon! Stay tuned!
 
 ## License
 
