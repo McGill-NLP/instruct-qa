@@ -8,7 +8,7 @@ from tqdm.auto import tqdm
 from tqdm.utils import CallbackIOWrapper
 
 
-def generate_experiment_id(name, split, collection_name, model_name, retriever_name, top_p, temperature, seed):
+def generate_experiment_id(name, split, collection_name, model_name, retriever_name, prompt_type, top_p, temperature, seed):
     """
     Generates a unique experiment identifier.
 
@@ -18,6 +18,7 @@ def generate_experiment_id(name, split, collection_name, model_name, retriever_n
         collection_name (str): Name of the collection.
         model_name (str): Name of the model evaluated.
         retriever_name (str): Name of the retriever evaluated.
+        prompt_type (str): Type of prompt used.
         top_p (float): Parameter used for Nucleus Sampling.
         temperature (float): Temperate used for generation.
         seed (int): Seed for RNG.
@@ -37,6 +38,8 @@ def generate_experiment_id(name, split, collection_name, model_name, retriever_n
         experiment_id += f"_m-{model_name}"
     if isinstance(retriever_name, str):
         experiment_id += f"_r-{retriever_name}"
+    if isinstance(prompt_type, str):
+        experiment_id += f"_prompt-{prompt_type}"
     if isinstance(top_p, float):
         experiment_id += f"_p-{top_p}"
     if isinstance(temperature, float):

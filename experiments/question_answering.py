@@ -222,6 +222,7 @@ if __name__ == "__main__":
         collection_name=args.document_collection_name,
         model_name=args.model_name.replace("/", "_"),
         retriever_name=args.retriever_name,
+        prompt_type=args.prompt_type,
         top_p=args.top_p,
         temperature=args.temperature,
         seed=args.seed,
