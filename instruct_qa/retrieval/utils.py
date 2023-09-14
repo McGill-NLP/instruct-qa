@@ -7,11 +7,11 @@ from instruct_qa.retrieval.index import IndexFaissFlatIP, IndexFaissHNSW
 
 INDEX_NAME_TO_PATH_URL = {
     "dpr-nq-multi-hnsw": {
-        "url": "https://rag-eval.s3.us-east-2.amazonaws.com/indexes/dpr/nq/multi/hnsw/index.dpr",
+        "url": "https://instruct-qa.s3.us-east-2.amazonaws.com/indexes/dpr/nq/multi/hnsw/index.dpr",
         "path": "data/nq/index/hnsw/index.dpr",
     },
     "dpr-topiocqa-single-hnsw": {
-        "url": "https://rag-eval.s3.us-east-2.amazonaws.com/indexes/dpr/topiocqa/single/hnsw/index.dpr",
+        "url": "https://instruct-qa.s3.us-east-2.amazonaws.com/indexes/dpr/topiocqa/single/hnsw/index.dpr",
         "path": "data/topiocqa/index/hnsw/index.dpr",
     },
 }
