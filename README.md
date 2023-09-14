@@ -97,7 +97,7 @@ Our library supports both question answering (QA) and conversational question an
 - [HotpotQA](https://huggingface.co/datasets/hotpot_qa)
 - [TopiOCQA](https://huggingface.co/datasets/McGill-NLP/TopiOCQA)
 
-It is easy to add any HuggingFace dataset to the library by providing a mapping, as demonstrated [here]().
+<!-- It is easy to add any HuggingFace dataset to the library by providing a mapping, as demonstrated [here](). -->
 
 Here is an example to generate responses for Natural Questions using DPR retriever and Flan-T5 generator.
 ```bash
@@ -114,6 +114,42 @@ python experiments/question_answering.py \
 
 By default, a `results` directory is created within the repository that stores the model responses. The default directory location can be overidden by providing an additional command line argument `--persistent_dir <OUTPUT_DIR>` More examples are present in the [examples](examples) directory.
 
+## Download model responses and human evaluation data
+We release the model responses generated using the above commands for all three datasets. The scores reported in the paper are based on these responses. The responses can be downloaded with the following command:
+```bash
+python download_data.py --resource results
+```
+The responses are automatically unzipped and stored as JSON lines in the following directory structure:
+```
+results
+├── {dataset_name}
+│   ├── response
+│   │   ├── {dataset}_{split}_c-{collection}_m-{model}_r-{retriever}_prompt-{prompt}_p-{top_p}_t-{temperature}_s-{seed}.jsonl
+```
+
+Currently, the following models are included:
+- `fid` (Fusion-in-Decoder, separately fine-tuned on each dataset)
+- `gpt-3.5-turbo` (GPT-3.5)
+- `alpaca-7b` (Alpaca)
+- `llama-2-7b-chat` (Llama-2)
+- `flan-t5-xxl` (Flan-T5)
+
+We also release the human annotations for correctness and faithfulness on a subset of responses for all datasets. The annotations can be downloaded with the following command:
+```bash
+python download_data.py --resource human_eval_annotations
+```
+
+The responses will be automatically unzipped in the following directory structure:
+```
+human_eval_annotations
+├── correctness
+│   ├── {dataset_name}
+│   │   ├── {model}_human_eval_results.json
+|
+├── faithfulness
+│   ├── {dataset_name}
+│   │   ├── {model}_human_eval_results.json
+```
 
 ## Evaluating model responses (Coming soon!)
 
