@@ -64,6 +64,7 @@ def parse_experiment_id(experiment_id):
     regex += "_c-([A-Z-a-z0-9-_.]+)"
     regex += "_m-([A-Z-a-z0-9-_.]+)"
     regex += "_r-([A-Z-a-z0-9-_.]+)"
+    regex += "_prompt-([A-Z-a-z0-9-_.]+)"
     regex += "_p-(\d+\.\d+)"
     regex += "_t-(\d+\.\d+)"
     regex += "_s-(\d+)"
@@ -75,9 +76,10 @@ def parse_experiment_id(experiment_id):
         "collection_name": parts[1],
         "model_name_or_path": parts[2],
         "retriever_name": parts[3],
-        "top_p": float(parts[4]),
-        "temperature": float(parts[5]),
-        "seed": int(parts[6]),
+        "prompt_type": parts[4],
+        "top_p": float(parts[5]),
+        "temperature": float(parts[6]),
+        "seed": int(parts[7]),
     }
 
     return result

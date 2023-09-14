@@ -134,6 +134,7 @@ dmypy.json
 
 data/**
 results/**
+human_eval_annotations/**
 
 # Ignore vscode settings
 .vscode/
