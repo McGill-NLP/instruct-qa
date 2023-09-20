@@ -49,8 +49,7 @@ class ResponseRunner:
         self._post_process_response = post_process_response
 
     def post_process_response(self, response):
-        response = re.sub(r"^\n+", "", response)
-        return response.split("\n")[0]
+        return self._model.post_process_response(response)
 
     def __call__(self):
         if self._output_path and os.path.exists(self._output_path):
