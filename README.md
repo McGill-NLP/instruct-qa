@@ -109,7 +109,9 @@ python experiments/question_answering.py \
 --retriever_name facebook-dpr-question_encoder-multiset-base \
 --batch_size 1 \
 --model_name flan-t5-xxl \
---k 8
+--k 8 \
+--max_new_tokens 500 \
+--post_process_response
 ```
 
 By default, a `results` directory is created within the repository that stores the model responses. The default directory location can be overidden by providing an additional command line argument `--persistent_dir <OUTPUT_DIR>` More examples are present in the [examples](examples) directory.

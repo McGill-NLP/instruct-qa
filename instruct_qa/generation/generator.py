@@ -53,6 +53,9 @@ class BaseGenerator:
     def __call__(self, prompt, **kwargs):
         raise NotImplementedError()
 
+    def post_process_response(self, response):
+        return response
+
 
 class GPTx(BaseGenerator):
     def __init__(self, *args, **kwargs):
@@ -166,6 +169,25 @@ class Llama(BaseGenerator):
             )
             for i in range(generate_ids.size(0))
         ]
+
+    def post_process_response(self, response):
+        keywords = {"user:", "User:", "assistant:", "- Title:", "Question:"}
+        end_keywords = {"Agent:", "Answer:"}
+
+        response_lines = response.split("\n")
+        response_lines = [x for x in response_lines if x.strip() not in ["", " "]]
+
+        for j, line in enumerate(response_lines):
+            if any(line.startswith(kw) for kw in keywords):
+                response_lines = response_lines[:j]
+                break
+
+        for j, line in enumerate(response_lines):
+            if j > 0 and any(line.startswith(kw) for kw in end_keywords):
+                response_lines = response_lines[:j]
+                break
+
+        return "\n".join(response_lines)
 
 
 class Vicuna(BaseGenerator):
