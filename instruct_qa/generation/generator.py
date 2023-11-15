@@ -19,6 +19,10 @@ from transformers import (
 
 max_length = 1900
 
+import logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+
 
 class BaseGenerator:
     def __init__(
@@ -284,6 +288,10 @@ class Flan(BaseGenerator):
             torch_dtype=self.torch_dtype,
             device_map="auto",
         )
+        if self.min_new_tokens is not None:
+            logger.warning(
+                "min_new_tokens is not supported for Flan. It will be ignored."
+            )
 
     def __call__(self, prompts):
         _input = self.tokenizer(
@@ -298,7 +306,7 @@ class Flan(BaseGenerator):
             temperature=self.temperature,
             top_p=self.top_p,
             max_new_tokens=self.max_new_tokens,
-            min_new_tokens=self.min_new_tokens,
+            # min_new_tokens=self.min_new_tokens,
         )
         return self.tokenizer.batch_decode(
             generate_ids,
