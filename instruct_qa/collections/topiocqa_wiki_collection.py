@@ -9,7 +9,7 @@ import instruct_qa.experiment_utils as utils
 
 from . import PassageCollection
 
-TOPIOCQA_WIKI_DOWNLOAD_URL = "https://zenodo.org/record/6149599/files/data/wikipedia_split/full_wiki_segments.tsv"
+TOPIOCQA_WIKI_DOWNLOAD_URL = "https://zenodo.org/records/6149599/files/data/wikipedia_split/full_wiki_segments.tsv"
 
 
 class TopiocqaWikiCollection(PassageCollection):
