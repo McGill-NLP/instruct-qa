@@ -157,6 +157,35 @@ human_eval_annotations
 
 Documentation to evaluate model responses and add your own evaluation criterion coming soon! Stay tuned!
 
+## LLM-based evaluation
+The following prompt templates and instructions were used for LLM-based evaluation.
+
+### Correctness
+```
+System prompt: You are CompareGPT, a machine to verify the correctness of predictions. Answer with only yes/no.
+
+You are given a question, the corresponding ground-truth answer and a prediction from a model. Compare the "Ground-truth answer" and the "Prediction" to determine whether the prediction correctly answers the question. All information in the ground-truth answer must be present in the prediction, including numbers and dates. You must answer "no" if there are any specific details in the ground-truth answer that are not mentioned in the prediction. There should be no contradicting statements in the prediction. The prediction may contain extra information. If the prediction states something as a possibility, treat it as a definitive answer.
+
+Question: {Question}
+Ground-truth answer: {Reference answer}
+Prediction:  {{Model response}
+
+CompareGPT response:
+```
+
+### Faithfulness
+```
+System prompt: You are CompareGPT, a machine to verify the groundedness of predictions. Answer with only yes/no.
+
+You are given a question, the corresponding evidence and a prediction from a model. Compare the "Prediction" and the "Evidence" to determine whether all the information of the prediction in present in the evidence or can be inferred from the evidence. You must answer "no" if there are any specific details in the prediction that are not mentioned in the evidence or cannot be inferred from the evidence.
+
+Question: {Question}
+Prediction:  {Model response}
+Evidence: {Reference passage}
+
+CompareGPT response:
+```
+
 ## License
 
 This work is licensed under the Apache 2 license. See [LICENSE](LICENSE) for details.
