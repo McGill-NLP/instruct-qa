@@ -1,10 +1,9 @@
 from math import inf
 import time
 import openai
-from openai.error import (
+from openai import (
     RateLimitError,
     APIConnectionError,
-    ServiceUnavailableError,
     APIError,
     Timeout,
 )
@@ -116,7 +115,6 @@ class GPTx(BaseGenerator):
         except (
             RateLimitError,
             APIConnectionError,
-            ServiceUnavailableError,
             APIError,
             Timeout,
         ) as e:
