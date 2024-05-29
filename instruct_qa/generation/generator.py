@@ -70,6 +70,9 @@ class GPTx(BaseGenerator):
             "text-davinci-003": "completions",
             "text-davinci-002": "completions",
         }
+        if "completion_type" in kwargs:
+            self.model_map[self.model_name] = kwargs["completion_type"]
+        
         assert (
             self.model_name in self.model_map
         ), "You should add the model name to the model -> endpoint compatibility mappings."
