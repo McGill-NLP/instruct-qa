@@ -62,6 +62,8 @@ class BaseGenerator:
 
 class GPTx(BaseGenerator):
     def __init__(self, *args, **kwargs):
+        completion_type = kwargs.pop("completion_type", None)
+        
         super().__init__(*args, **kwargs)
         openai.api_key = self.api_key
         self.model_map = {
@@ -70,8 +72,9 @@ class GPTx(BaseGenerator):
             "text-davinci-003": "completions",
             "text-davinci-002": "completions",
         }
-        if "completion_type" in kwargs:
-            self.model_map[self.model_name] = kwargs["completion_type"]
+
+        if completion_type is not None:
+            self.model_map[model_name] = completion_type
         
         assert (
             self.model_name in self.model_map
