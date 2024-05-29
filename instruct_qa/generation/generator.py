@@ -74,7 +74,7 @@ class GPTx(BaseGenerator):
         }
 
         if completion_type is not None:
-            self.model_map[model_name] = completion_type
+            self.model_map[self.model_name] = completion_type
         
         assert (
             self.model_name in self.model_map
