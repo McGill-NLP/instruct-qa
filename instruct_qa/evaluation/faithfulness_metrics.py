@@ -6,10 +6,9 @@ import string
 import time
 import evaluate
 import openai
-from openai.error import (
+from openai import (
     RateLimitError,
     APIConnectionError,
-    ServiceUnavailableError,
     APIError,
 )
 
@@ -891,7 +890,6 @@ class KLLMEval(Metric):
         except (
             RateLimitError,
             APIConnectionError,
-            ServiceUnavailableError,
             APIError,
         ) as e:
             print(f"Error: {e}. Waiting {self.wait} seconds before retrying.")
