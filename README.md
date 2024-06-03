@@ -196,10 +196,17 @@ This work is licensed under the Apache 2 license. See [LICENSE](LICENSE) for det
 To cite this work, please use the following citation:
 ```
 @article{adlakha2023evaluating,
-      title={Evaluating Correctness and Faithfulness of Instruction-Following Models for Question Answering}, 
-      author={Vaibhav Adlakha and Parishad BehnamGhader and Xing Han Lu and Nicholas Meade and Siva Reddy},
-      year={2023},
-      journal={arXiv:2307.16877},
+    author = {Adlakha, Vaibhav and BehnamGhader, Parishad and Lu, Xing Han and Meade, Nicholas and Reddy, Siva},
+    title = "{Evaluating Correctness and Faithfulness of Instruction-Following Models for Question Answering}",
+    journal = {Transactions of the Association for Computational Linguistics},
+    volume = {12},
+    pages = {681-699},
+    year = {2024},
+    month = {05},
+    issn = {2307-387X},
+    doi = {10.1162/tacl_a_00667},
+    url = {https://doi.org/10.1162/tacl\_a\_00667},
+    eprint = {https://direct.mit.edu/tacl/article-pdf/doi/10.1162/tacl\_a\_00667/2374800/tacl\_a\_00667.pdf},
 }
 ```
 
