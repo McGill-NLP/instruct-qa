@@ -153,10 +153,6 @@ human_eval_annotations
 │   │   ├── {model}_human_eval_results.json
 ```
 
-## Evaluating model responses (Coming soon!)
-
-Documentation to evaluate model responses and add your own evaluation criterion coming soon! Stay tuned!
-
 ## LLM-based evaluation
 The following prompt templates and instructions were used for LLM-based evaluation.
 
