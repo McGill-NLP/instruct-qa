@@ -8,10 +8,9 @@ import time
 import evaluate
 import numpy as np
 import openai
-from openai.error import (
+from openai import (
     RateLimitError,
     APIConnectionError,
-    ServiceUnavailableError,
     APIError,
 )
 import torch
@@ -454,7 +453,6 @@ class LLMEval(Metric):
         except (
             RateLimitError,
             APIConnectionError,
-            ServiceUnavailableError,
             APIError,
         ) as e:
             print(f"Error: {e}. Waiting {self.wait} seconds before retrying.")

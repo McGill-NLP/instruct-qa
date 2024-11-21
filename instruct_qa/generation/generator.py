@@ -1,10 +1,9 @@
 from math import inf
 import time
 import openai
-from openai.error import (
+from openai import (
     RateLimitError,
     APIConnectionError,
-    ServiceUnavailableError,
     APIError,
     Timeout,
 )
@@ -63,6 +62,8 @@ class BaseGenerator:
 
 class GPTx(BaseGenerator):
     def __init__(self, *args, **kwargs):
+        completion_type = kwargs.pop("completion_type", None)
+        
         super().__init__(*args, **kwargs)
         openai.api_key = self.api_key
         self.model_map = {
@@ -71,6 +72,10 @@ class GPTx(BaseGenerator):
             "text-davinci-003": "completions",
             "text-davinci-002": "completions",
         }
+
+        if completion_type is not None:
+            self.model_map[self.model_name] = completion_type
+        
         assert (
             self.model_name in self.model_map
         ), "You should add the model name to the model -> endpoint compatibility mappings."
@@ -116,7 +121,6 @@ class GPTx(BaseGenerator):
         except (
             RateLimitError,
             APIConnectionError,
-            ServiceUnavailableError,
             APIError,
             Timeout,
         ) as e:
