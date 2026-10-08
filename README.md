@@ -117,6 +117,13 @@ python experiments/question_answering.py \
 By default, a `results` directory is created within the repository that stores the model responses. The default directory location can be overidden by providing an additional command line argument `--persistent_dir <OUTPUT_DIR>` More examples are present in the [examples](examples) directory.
 
 ## Download model responses and human evaluation data
+The response archives, annotation archives, and retrieval indexes are hosted in
+Google Cloud Storage at
+`https://storage.googleapis.com/reddy-aws-804376041706-instruct-qa-public`.
+The download commands below use this location by default. To select another
+public HTTP mirror with the same object paths, set `INSTRUCT_QA_DATA_BASE_URL`
+to its base URL.
+
 We release the model responses generated using the above commands for all three datasets. The scores reported in the paper are based on these responses. The responses can be downloaded with the following command:
 ```bash
 python download_data.py --resource results
@@ -209,3 +216,4 @@ To cite this work, please use the following citation:
 ## Contact
 
 For queries and clarifications please contact **vaibhav.adlakha (at) mila (dot) quebec**
+
