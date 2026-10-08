@@ -21,15 +21,20 @@ from typing import Tuple
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
+DATA_BASE_URL = os.environ.get(
+    "INSTRUCT_QA_DATA_BASE_URL",
+    "https://storage.googleapis.com/reddy-aws-804376041706-instruct-qa-public",
+).rstrip("/")
+
 RESOURCES_MAP = {
     "results": {
-        "url": "https://instruct-qa.s3.us-east-2.amazonaws.com/results.tar.gz",
+        "url": f"{DATA_BASE_URL}/results.tar.gz",
         "desc": "Response files from all instruction-following and models",
         "original_ext": None,
         "compressed": True,
     },
     "human_eval_annotations": {
-        "url": "https://instruct-qa.s3.us-east-2.amazonaws.com/human_eval_annotations.tar.gz",
+        "url": f"{DATA_BASE_URL}/human_eval_annotations.tar.gz",
         "desc": "Human evaluation annotations",
         "compressed": True,
         "original_ext": None,

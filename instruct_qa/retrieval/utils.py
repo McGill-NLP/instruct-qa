@@ -5,13 +5,18 @@ import instruct_qa.experiment_utils as utils
 from instruct_qa.retrieval import RetrieverFromFile, SentenceTransformerRetriever
 from instruct_qa.retrieval.index import IndexFaissFlatIP, IndexFaissHNSW
 
+DATA_BASE_URL = os.environ.get(
+    "INSTRUCT_QA_DATA_BASE_URL",
+    "https://storage.googleapis.com/reddy-aws-804376041706-instruct-qa-public",
+).rstrip("/")
+
 INDEX_NAME_TO_PATH_URL = {
     "dpr-nq-multi-hnsw": {
-        "url": "https://instruct-qa.s3.us-east-2.amazonaws.com/indexes/dpr/nq/multi/hnsw/index.dpr",
+        "url": f"{DATA_BASE_URL}/indexes/dpr/nq/multi/hnsw/index.dpr",
         "path": "data/nq/index/hnsw/index.dpr",
     },
     "dpr-topiocqa-single-hnsw": {
-        "url": "https://instruct-qa.s3.us-east-2.amazonaws.com/indexes/dpr/topiocqa/single/hnsw/index.dpr",
+        "url": f"{DATA_BASE_URL}/indexes/dpr/topiocqa/single/hnsw/index.dpr",
         "path": "data/topiocqa/index/hnsw/index.dpr",
     },
 }
